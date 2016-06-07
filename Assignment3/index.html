@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assignment 3</title>
+    <style>
+    body{ margin:10px;}
+    #my_canvas{ border:#000 1px solid; }
+    
+    #left_btn { padding: 20px;	text-align:center;}
+    #left_btn {background-color: green;}
+    
+    #right_btn { padding: 20px;	text-align:center;}
+    #right_btn {background-color: green;}
+    
+    #fire_btn { padding: 20px;	text-align:center;}
+    #fire_btn {background-color: green;}
+    
+    #save_btn { padding: 20px;	text-align:center;}    
+    #save_btn {background-color: green;}
+    
+    #load_btn { padding: 20px;	text-align:center;}  
+    #load_btn {background-color: green;}
+    
+    </style>
+    <script type="text/javascript" src="http://76.28.150.193:8888/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="./entity.js"></script>s
+    <script type="text/javascript" src="./game.js"></script>  
+</head>
+<body>
+<canvas id="my_canvas" width="800" height="700"></canvas>
+<div>
+ <button id="left_btn"><b>Move Left</b></button>
+ <button id="fire_btn"><b>Fire Enemy</b></button>
+  <button id="right_btn"><b>Move Right</b></button>
+  
+  <button id="save_btn"><b>Save Game</b></button>
+  <button id="load_btn"><b>Load Game</b></button>
+</div>
+<h3 id="status"></h3>
+</body>  
+</html>
