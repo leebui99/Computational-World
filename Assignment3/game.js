@@ -34,7 +34,10 @@ function initCanvas(){
     
     socket.on("load", function (data) {
 
-        enemies = data.data.enemies
+        enemies = data.data.enemies;
+        //missiles = data.data.missiles;
+        launcher = new Launcher(data.data.canon);
+        launcher.missiles = data.data.missiles;
         console.log(data);           
     });
     
@@ -55,12 +58,15 @@ function initCanvas(){
         }
     }
     
-    //Adding into the list of entity
-    renderEnemies.prototype = new Entity();
-    renderEnemies.prototype.constructor = renderEnemies;
 
-    function Launcher(){
-        this.y = 650, this.x = cW*.5-25, this.w = 50, this.h = 50, this.dir, this.bg="red", this.missiles = [];//set location for the canon in the beginning 
+    function Launcher(x){
+        this.y = 650;
+        this.x = x;
+        this.w = 50;
+        this.h = 50;
+        this.dir;
+        this.bg="red";
+        this.missiles = [];//set location for the canon in the beginning 
         this.render = function(){
             if(this.dir == 'left'){//check for canon moving direction
                 if(this.x > 0){
@@ -92,9 +98,7 @@ function initCanvas(){
             }
         }
         
-            //Adding into the list of entity
-    Launcher.prototype = new Entity();
-    Launcher.prototype.constructor = Launcher;
+
         //check for collision function 
         this.hitDetect = function(m,mi){
              var enemiesNum = 0;
@@ -112,7 +116,7 @@ function initCanvas(){
         
     }
     
-    var launcher = new Launcher();
+    var launcher = new Launcher(cW*.5-25);
     function animate(){
         //ctx.save();
         ctx.clearRect(0, 0, cW, cH);
@@ -152,19 +156,32 @@ function initCanvas(){
     });
     /******************************************************************************************** */
     var Game_Data = { studentname: "Le Phu Bui", statename: "FirstState"};
+    
     var saveGame = function() {
     console.log("SAVE");
     Game_Data.data = {};
     Game_Data.data.enemies = [];//save the enemies
+    Game_Data.data.canon = launcher.x;//save the cannon
     Game_Data.data.missiles = [];//save the missiles
+
     var b = 0;
+    //save all the enemies
     for(var i = 0, j = 0, len = enemies.length; i < len; i++){
         var ent = enemies[i];
             Game_Data.data.enemies[j++] = {id: ent.id, x: ent.x, y: ent.y, w: ent.w, h: ent.h};
+            // Game_Data.data.missiles[j++] = {"x":launcher.x+launcher.w*.5,"y":launcher.y,"w":3,"h":10,"bg":"red"};
         }
-        console.log(missiles.length);
-            Game_Data.data.missiles[b++] = {launcher};
+    for(var a = 0; a < launcher.missiles.length; a++){
+        Game_Data.data.missiles[a] = {x:launcher.missiles[a].x,y:launcher.missiles[a].y,w: launcher.missiles[a].w,h: launcher.missiles[a].h,bg: launcher.missiles[a].bg};
+    }
+    //save the canon
    
+   
+        // console.log(launcher.x);
+        // console.log(launcher.y);
+        // console.log(launcher.w);
+        // console.log(launcher.h);
+      
     socket.emit("save", Game_Data);
    }
    
